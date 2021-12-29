@@ -5,6 +5,26 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
+  <!--乱码过滤器-->
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>me.zwdi.crm.web.filter.EncodingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
+  <!--登录验证过滤器-->
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>me.zwdi.crm.web.filter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
 
 <servlet>
     <servlet-name>UserController</servlet-name>
@@ -12,8 +32,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>UserController</servlet-name>
-    <url-pattern>/settings/user/save.do</url-pattern>
-    <url-pattern>/settings/user/xxx.do</url-pattern>
+    <url-pattern>/settings/user/login.do</url-pattern>
   </servlet-mapping>
   
   

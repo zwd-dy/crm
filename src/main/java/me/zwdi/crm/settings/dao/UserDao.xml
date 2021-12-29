@@ -6,4 +6,10 @@
 <mapper namespace="me.zwdi.crm.settings.dao.UserDao">
     <!---使用insert,update,delete,select标签写sql-->
 
+    <select id="login" resultType="User">
+
+        select * from tbl_user where loginAct = #{loginAct} and loginPwd = #{loginPwd}
+
+    </select>
+
 </mapper>
