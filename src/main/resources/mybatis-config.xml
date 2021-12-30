@@ -9,7 +9,8 @@
   <typeAliases>
   
   	<package name="me.zwdi.crm.settings.domain"/>
-  	
+  	<package name="me.zwdi.crm.workbench.domain"/>
+
   
   </typeAliases>
   
@@ -29,7 +30,8 @@
   <mappers>
    
       <package name="me.zwdi.crm.settings.dao"/>
-    
+      <package name="me.zwdi.crm.workbench.dao"/>
+
   </mappers>
 </configuration>
 

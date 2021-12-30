@@ -15,6 +15,12 @@
 
 		$(function (){
 
+			// 如果当前登录窗口不是顶层窗口，就把顶层窗口设置成登录窗口
+			// 防止子窗口里出现登录页面，页面会很难看，用户体验差
+			if(window.top != window){
+				window.top.location = window.location;
+			}
+
 			// 页面加载完毕后，将文本内容清空
 			$("#loginAct").val("");
 			$("#loginPwd").val("");
