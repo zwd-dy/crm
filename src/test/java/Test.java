@@ -1,6 +1,7 @@
 import me.zwdi.crm.settings.dao.UserDao;
 import me.zwdi.crm.settings.domain.User;
 import me.zwdi.crm.utils.MD5Util;
+import me.zwdi.crm.utils.PrintJson;
 import me.zwdi.crm.utils.SqlSessionUtil;
 
 import java.util.HashMap;
@@ -23,4 +24,10 @@ public class Test {
         System.out.println(user);
 
     }
+
+    @org.junit.Test
+    public void test(){
+
+    }
+
 }

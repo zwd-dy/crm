@@ -6,6 +6,46 @@
 <mapper namespace="me.zwdi.crm.workbench.dao.ActivityRemarkDao">
     <!---使用insert,update,delete,select标签写sql-->
 
+    <update id="updateRemarkById">
+        update tbl_activity_remark set noteContent = #{noteContent} where id = #{id}
+    </update>
 
+    <delete id="deleteByid">
+        delete from tbl_activity_remark where id = #{id}
+    </delete>
+
+    <insert id="saveRemark">
+        insert into tbl_activity_remark(
+            id,
+            noteContent,
+            createTime,
+            createBy,
+            activityId
+        ) values (
+             #{id},
+             #{noteContent},
+             #{createTime},
+             #{createBy},
+             #{activityId}
+        )
+    </insert>
+
+    <select id="getRemarkById" resultType="ActivityRemark">
+        select * from tbl_activity_remark where activityId = #{id} order by createTime desc
+    </select>
+
+    <delete id="deleteByAids">
+        delete from tbl_activity_remark where activityId in
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </delete>
+
+    <select id="getCountByids" resultType="int">
+        select count(*) from tbl_activity_remark where activityId in
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </select>
 
 </mapper>

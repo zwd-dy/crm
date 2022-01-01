@@ -20,6 +20,10 @@ public class WebUtil {
      * @param obj   javabean对象
      */
     public static void makeRequestToObject(HttpServletRequest request,Object obj){
+        String path = request.getServletPath();
+
+        String timeType = path.contains("save") ? "createTime" : "editTime";
+        String byType = path.contains("save") ? "createBy" : "editBy";
         // 整个Object类的字节码
         Class classO = obj.getClass();
 
@@ -48,10 +52,10 @@ public class WebUtil {
             String methodname = "set"+FirstCharToCase(fieldName);
             try {
 
-                if("createTime".equals(fieldName)) {
+                if(timeType.equals(fieldName)) {
                     classO.getDeclaredMethod(methodname, String.class).invoke(obj, DateTimeUtil.getSysTime());
 
-                } else if("createBy".equals(fieldName)) {
+                } else if(byType.equals(fieldName)) {
                     classO.getDeclaredMethod(methodname, String.class).invoke(obj, ((User)request.getSession().getAttribute("user")).getName());
                 }
 

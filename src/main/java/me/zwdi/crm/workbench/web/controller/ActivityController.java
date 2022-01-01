@@ -7,6 +7,7 @@ import me.zwdi.crm.utils.*;
 import me.zwdi.crm.vo.PaginationVO;
 import me.zwdi.crm.web.WebUtil;
 import me.zwdi.crm.workbench.domain.Activity;
+import me.zwdi.crm.workbench.domain.ActivityRemark;
 import me.zwdi.crm.workbench.service.ActivityService;
 import me.zwdi.crm.workbench.service.impl.ActivityServiceImpl;
 
@@ -33,14 +34,139 @@ public class ActivityController extends HttpServlet {
             getUserList(request,response);
 
         } else if("/workbench/activity/save.do".equals(path)) {
+
             save(request,response);
 
         }else if("/workbench/activity/pageList.do".equals(path)) {
 
             pageList(request,response);
 
+        }else if("/workbench/activity/delete.do".equals(path)) {
+
+            delete(request,response);
+
+        }else if("/workbench/activity/getUserListAndActivity.do".equals(path)) {
+
+            getUserListAndActivity(request,response);
+
+        }else if("/workbench/activity/update.do".equals(path)) {
+
+            update(request,response);
+
+        }else if("/workbench/activity/detail.do".equals(path)) {
+
+            detail(request,response);
+
+        }else if("/workbench/activity/getRemarkById.do".equals(path)) {
+
+            getRemarkById(request,response);
+
+        }else if("/workbench/activity/saveRemark.do".equals(path)) {
+
+            saveRemark(request,response);
+
+        }else if("/workbench/activity/deleteRemark.do".equals(path)) {
+
+            deleteRemark(request,response);
+
+        }else if("/workbench/activity/updateRemark.do".equals(path)) {
+
+            updateRemark(request,response);
+
         }
 
+    }
+
+    private void updateRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到修改备注信息的操作");
+        String id = request.getParameter("id");
+        String noteContent = request.getParameter("noteContent");
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = as.updateRemark(id,noteContent);
+        PrintJson.printJsonFlag(response,flag);
+    }
+
+    private void deleteRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到删除备注的操作");
+
+        String activityId = request.getParameter("activityId");
+        String id = request.getParameter("id");
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = as.deleteRemark(id);
+        PrintJson.printJsonFlag(response,flag);
+
+    }
+
+    private void saveRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到添加备注操作");
+
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+        ActivityRemark ar = new ActivityRemark();
+        ar.setId(UUIDUtil.getUUID());
+        WebUtil.makeRequestToObject(request,ar);
+        boolean flag = as.saveRemark(ar);
+        PrintJson.printJsonFlag(response,flag);
+    }
+
+    private void getRemarkById(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到查询所有备注操作");
+
+        String id = request.getParameter("id");
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+        List<ActivityRemark> activityRemarks = as.getRemarkById(id);
+        PrintJson.printJsonObj(response,activityRemarks);
+
+    }
+
+    private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("进入到跳转到详细信息页的操作");
+        String id = request.getParameter("id");
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+        Activity a = as.detail(id);
+        request.setAttribute("a",a);
+        request.getRequestDispatcher("/workbench/activity/detail.jsp").forward(request,response);
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行市场活动修改操作");
+
+        Activity a = new Activity();
+        WebUtil.makeRequestToObject(request,a);
+
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+
+        boolean flag = as.update(a);
+
+        PrintJson.printJsonFlag(response,flag);
+
+    }
+
+    private void getUserListAndActivity(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到查询用户信息列表和根据市场活动id查询单条记录的操作");
+
+        String id = request.getParameter("id");
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+        /*
+
+                总结：
+                    controller调用service方法，返回值应该是什么
+                    你得想一想前端要什么，就要从service层取什么
+
+                uList
+                a
+         */
+        Map<String,Object> map = as.getUserListAndActivity(id);
+        PrintJson.printJsonObj(response,map);
+    }
+
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("执行市场活动删除操作");
+
+        String ids[] = request.getParameterValues("id");
+        ActivityService as = (ActivityService)ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = as.delete(ids);
+        PrintJson.printJsonFlag(response,flag);
     }
 
     private void pageList(HttpServletRequest request, HttpServletResponse response) {
