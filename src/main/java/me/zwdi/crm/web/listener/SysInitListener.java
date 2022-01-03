@@ -8,9 +8,7 @@ import me.zwdi.crm.utils.ServiceFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SysInitListener implements ServletContextListener {
 
@@ -41,12 +39,33 @@ public class SysInitListener implements ServletContextListener {
         Map<String, List<DicValue>> map = ds.getAll();
         // 将map解析为上下文域对象中保存的键值对
         Set<String> set = map.keySet();
+        application.setAttribute("dicNum",map.size());
+
         for (String key : set) {
             application.setAttribute(key,map.get(key));
         }
         // application.setAttribute("","");
         System.out.println("服务器缓存处理数据字典结束");
 
+        // -------------------------------------------------------------------------------------
+        // 处理完数据字典后，处理stage2Possibility.properties文件
+        /*
+            解析该文件，将属性文件中的键值对关系处理成为java中键值对关系（map）
+
+            Map<String stage(阶段),String possibility(可能性)>
+         */
+
+        ResourceBundle rb = ResourceBundle.getBundle("Stage2Possibility");
+
+        Map<String,String> pMap = new HashMap<String, String>();
+
+        Enumeration<String> keys = rb.getKeys();
+        while(keys.hasMoreElements()){
+            String key = keys.nextElement();
+            pMap.put(key,rb.getString(key));
+        }
+        // 将 pMap 保存到服务器缓存中
+        application.setAttribute("pMap",pMap);
     }
 
 }

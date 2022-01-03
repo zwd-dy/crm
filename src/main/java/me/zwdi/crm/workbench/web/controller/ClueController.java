@@ -11,6 +11,7 @@ import me.zwdi.crm.web.WebUtil;
 import me.zwdi.crm.workbench.domain.Activity;
 import me.zwdi.crm.workbench.domain.ActivityRemark;
 import me.zwdi.crm.workbench.domain.Clue;
+import me.zwdi.crm.workbench.domain.Tran;
 import me.zwdi.crm.workbench.service.ActivityService;
 import me.zwdi.crm.workbench.service.ClueService;
 import me.zwdi.crm.workbench.service.impl.ActivityServiceImpl;
@@ -74,17 +75,35 @@ public class ClueController extends HttpServlet {
 
     }
 
-    private void convert(HttpServletRequest request, HttpServletResponse response) {
+    private void convert(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("执行线索转换的操作");
 
-        // 接收是否需要创建交易的标记
-        String flag = request.getParameter("flag");
+        String clueId = request.getParameter("clueId");
 
+        // 接收是否需要创建交易的标记
+        String flag1 = request.getParameter("flag");
+        String createBy = ((User)request.getSession().getAttribute("user")).getName();
+
+        Tran t = null;
         // 如果需要创建交易
-        if("a".equals(flag)){
+        if("a".equals(flag1)){
+            t = new Tran();
             // 接收交易
+            t.setId(UUIDUtil.getUUID());
+            WebUtil.makeRequestToObject(request,t);
+            createBy = t.getCreateBy();
         }
 
+        ClueService cs = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        /*
+            为业务层传递的参数
+                1、必须传递的参数clueId，有了这个clueId之后我们才知道要转换哪条记录
+                2、必须传递的参数t，因为在线索转换的过程中，有可能临时创建一笔交易（业务层接收的t也有可能是个null）
+         */
+        boolean flag2 = cs.convert(clueId,t,createBy);
+        if(flag2){
+            response.sendRedirect(request.getContextPath()+"/workbench/clue/index.jsp");
+        }
     }
 
     private void getActivityListByName(HttpServletRequest request, HttpServletResponse response) {

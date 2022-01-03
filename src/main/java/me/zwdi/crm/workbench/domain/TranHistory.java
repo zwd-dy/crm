@@ -9,7 +9,17 @@ public class TranHistory {
 	private String createTime;
 	private String createBy;
 	private String tranId;
-	
+
+	// 扩充 可能性
+	private String possibilty;
+
+	public String getPossibilty() {
+		return possibilty;
+	}
+
+	public void setPossibilty(String possibilty) {
+		this.possibilty = possibilty;
+	}
 	public String getId() {
 		return id;
 	}

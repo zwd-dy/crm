@@ -226,7 +226,7 @@ String owner = request.getParameter("owner");*/
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="stage">阶段</label>
-		    <select id="stage"  class="form-control">
+		    <select name="stage" id="stage"  class="form-control">
 		    	<option></option>
 		    	<c:forEach items="${stage}" var="s">
 					<option value="${s.value}">${s.text}</option>

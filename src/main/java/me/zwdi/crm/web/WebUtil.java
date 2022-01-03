@@ -22,8 +22,8 @@ public class WebUtil {
     public static void makeRequestToObject(HttpServletRequest request,Object obj){
         String path = request.getServletPath();
 
-        String timeType = path.contains("save") ? "createTime" : "editTime";
-        String byType = path.contains("save") ? "createBy" : "editBy";
+        String timeType = path.contains("update") ? "editTime" : "createTime";
+        String byType = path.contains("update") ? "editBy" : "createBy";
         // 整个Object类的字节码
         Class classO = obj.getClass();
 
