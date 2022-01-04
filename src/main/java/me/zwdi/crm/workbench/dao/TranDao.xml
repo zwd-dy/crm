@@ -5,6 +5,20 @@
 
 <mapper namespace="me.zwdi.crm.workbench.dao.TranDao">
 
+    <select id="getCharts" resultType="map">
+        SELECT
+            count(*) as value,
+            stage as name
+        FROM
+            tbl_tran
+        GROUP BY
+            stage
+    </select>
+
+    <select id="getTotal" resultType="int">
+        SELECT count(*) FROM tbl_tran
+    </select>
+
     <update id="updateChangeStage">
         update tbl_tran set stage=#{stage},editBy=#{editBy},editTime=#{editTime} where id=#{id}
     </update>

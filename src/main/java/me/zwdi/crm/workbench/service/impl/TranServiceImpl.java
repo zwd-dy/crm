@@ -13,6 +13,7 @@ import me.zwdi.crm.workbench.domain.Tran;
 import me.zwdi.crm.workbench.domain.TranHistory;
 import me.zwdi.crm.workbench.service.TranService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -131,5 +132,22 @@ public class TranServiceImpl implements TranService {
         }
 
         return flag;
+    }
+
+    @Override
+    public Map<String, Object> getCharts() {
+
+        // 取得total
+        int total = tranDao.getTotal();
+        // 取得dataList
+        List<Map<String,Object>> dataList = tranDao.getCharts();
+
+        // 将total和dataList保存到map中
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("total",total);
+        map.put("dataList",dataList);
+
+        // 返回map
+        return map;
     }
 }

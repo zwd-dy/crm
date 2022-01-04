@@ -5,6 +5,95 @@
 
 <mapper namespace="me.zwdi.crm.workbench.dao.ClueDao">
 
+    <select id="getTotalByCondition" resultType="int">
+        select count(*) FROM
+        tbl_clue c
+        JOIN tbl_user u ON c.OWNER = u.id
+
+        <where>
+
+            <if test="name != null and name !=''">
+                c.fullname like '%' #{name} '%'
+            </if>
+
+            <if test="company != null and company !=''">
+                and c.company like '%' #{company} '%'
+            </if>
+
+            <if test="phone != null and phone !=''">
+                and c.phone=#{phone}
+            </if>
+
+            <if test="mphone != null and mphone !=''">
+                and c.mphone=#{mphone}
+            </if>
+
+            <if test="source != null and source !=''">
+                and c.source=#{source}
+            </if>
+
+            <if test="owner != null and owner !=''">
+                and u.name like '%' #{owner} '%'
+            </if>
+
+            <if test="state != null and state !=''">
+                and c.state=#{state}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="getClueListByCondition" resultType="Clue">
+        SELECT
+            c.id,
+            c.fullname,
+            c.appellation,
+            c.company,
+            c.phone,
+            c.mphone,
+            c.source,
+            u.NAME AS OWNER,
+            c.state
+        FROM
+            tbl_clue c
+                JOIN tbl_user u ON c.OWNER = u.id
+
+        <where>
+
+            <if test="name != null and name !=''">
+                c.fullname like '%' #{name} '%'
+            </if>
+
+            <if test="company != null and company !=''">
+                and c.company like '%' #{company} '%'
+            </if>
+
+            <if test="phone != null and phone !=''">
+                and c.phone=#{phone}
+            </if>
+
+            <if test="mphone != null and mphone !=''">
+                and c.mphone=#{mphone}
+            </if>
+
+            <if test="source != null and source !=''">
+                and c.source=#{source}
+            </if>
+
+            <if test="owner != null and owner !=''">
+                and u.name like '%' #{owner} '%'
+            </if>
+
+            <if test="state != null and state !=''">
+                and c.state=#{state}
+            </if>
+
+        </where>
+
+        order by c.createTime desc
+        limit #{skipCount},#{pageSize}
+    </select>
+
     <delete id="delete">
         delete from tbl_clue where id=#{id}
     </delete>

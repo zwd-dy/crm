@@ -1,13 +1,13 @@
 me\zwdi\crm\utils\PrintJson.class
 me\zwdi\crm\exception\LoginException.class
+me\zwdi\crm\settings\web\controller\UserController.class
+me\zwdi\crm\settings\domain\User.class
 me\zwdi\crm\utils\DateTimeUtil.class
 me\zwdi\crm\utils\ServiceFactory.class
-me\zwdi\crm\settings\web\controller\UserController.class
 me\zwdi\crm\utils\UUIDUtil.class
 me\zwdi\crm\settings\dao\UserDao.class
 me\zwdi\crm\settings\service\impl\UserServiceImpl.class
 me\zwdi\crm\settings\service\UserService.class
-me\zwdi\crm\utils\TransactionInvocationHandler.class
 me\zwdi\crm\utils\MD5Util.class
 me\zwdi\crm\utils\SqlSessionUtil.class
-me\zwdi\crm\settings\domain\User.class
+me\zwdi\crm\utils\TransactionInvocationHandler.class
